@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+<div class="col-md-8 offset-md-2">
+  
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Created At</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {% if records %}
+        {% for record in records %}
+        <tr>
+          <td>{{record.id}}</td>
+          <td>{{record.first_name}} {{record.last_name}}</td>
+          <td>{{record.created_at}}</td>
+          <td><a class="btn btn-success btn-sm" href="{% url 'record_page' record.id%}" >Click Here</td>
+        </tr>
+        {% endfor %}
+        <br>
+        {% endif %}
+
+    </tbody>
+
+  </table>
+
+
+
+    
+  {% else %}
+  <div class="col-md-6 offset-md-3">
+    <h1>Login</h1>
+
+    <form method="POST" action="{% url 'home_page' %}">
+          {% csrf_token %}
+          <form>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" placeholder="Enter username" aria-describedby="emailHelp" required>
+              </div><br>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="password" id="exampleInputPassword1" required>
+              </div><br>
+              <button type="submit" class="btn btn-secondary">Login</button>
+            </form><br>
+            <div class="text-center">
+              <p>Don't have an account ?</p>
+              <a href="{% url 'register_page' %}" class="btn btn-secondary">Register</a>
+            </div>
+      </form><br>
+</div>
+{% endif %}
+
+{% endblock %}
